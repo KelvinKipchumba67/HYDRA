@@ -1,0 +1,77 @@
+/* Container for the whole hero section */
+.hero-container {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* Fallback */
+  height: 100svh; /* Small viewport height (better for mobile browser UI) */
+  min-height: 100vh;
+  background-color: #000;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end; /* Pushes content to the bottom */
+  font-family: 'Inter', sans-serif;
+}
+
+/* Background Image styling */
+.hero-bg-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures image covers area without stretching */
+  z-index: 1;
+}
+
+/* Gradient overlay to make white text readable */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 60%);
+  z-index: 2;
+}
+
+/* The content wrapper */
+.hero-content {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px 80px 40px; /* Bottom padding for that lifted look */
+  display: flex;
+  justify-content: space-between; /* Spreads text left and button right */
+  align-items: flex-end;
+  box-sizing: border-box;
+}
+
+.hero-title {
+  color: #ffffff;
+  font-size: 4.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin: 0;
+  letter-spacing: -0.03em;
+}
+
+/* Button styling */
+.hero-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 36px;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 50px;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.hero-btn:hover {
+  background: #ffffff;
+  color: #000000;
+}

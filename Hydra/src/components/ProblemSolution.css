@@ -1,0 +1,96 @@
+:root {
+  --text-color: black;
+  --body-font: 'Helvetica Neue', Arial, sans-serif;
+  --max-width: 1000px;
+}
+
+.page-container {
+  font-family: var(--body-font);
+  color: var(--text-color);
+  line-height: 1.6;
+  padding: 80px 20px 60px;
+  background-color: #ffffff;
+  scroll-margin-top: 90px;
+}
+
+/* Header Styles */
+.page-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.page-header h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+  letter-spacing: -0.5px;
+  color: black;
+}
+
+.page-header p {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+/* Layout Grid */
+.content-stack {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.feature-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+  margin-bottom: 100px;
+}
+
+.row-reverse {
+  flex-direction: row-reverse;
+}
+
+/* Content Styles */
+.text-content {
+  flex: 1;
+}
+
+.text-content h2 {
+  font-size: 1.8rem;
+  font-weight: 900;
+  line-height: 1.2;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  color: black;
+}
+
+.text-content p {
+  font-size: 1.05rem;
+  color: #333;
+}
+
+.image-content {
+  flex: 1;
+}
+
+.image-content img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  filter: grayscale(10%); 
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .feature-row, .row-reverse {
+    flex-direction: column;
+    text-align: left;
+    gap: 30px;
+    margin-bottom: 60px;
+  }
+  
+  .page-header h1 {
+    font-size: 2rem;
+  }
+}
