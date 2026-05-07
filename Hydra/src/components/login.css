@@ -1,4 +1,7 @@
 /* Page layout */
+
+body{
+}
 .auth-page {
   min-height: 100svh;
   display: flex;
@@ -9,7 +12,11 @@
 }
 
 .login-page {
-  background-color: var(--brand-blue);
+  /* background-color: var(--brand-blue); */
+  background-image: url('../assets/images/Need.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+
 }
 
 /* Form box */

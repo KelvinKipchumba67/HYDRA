@@ -1,125 +1,134 @@
-import { Component } from "react";
+import React, { useState } from "react";
 import "./sign.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../AuthContext";
 
-class SignUp extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: "",
-      password: "",
-      rememberMe: false,
-      error: "",
-    };
-  }
+const SignUp = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  handleEmailChange = (event) => {
-    this.setState({ email: event.target.value, error: "" });
-  };
+  const { register } = useAuth();
+  const navigate = useNavigate();
 
-  handlePasswordChange = (event) => {
-    this.setState({ password: event.target.value, error: "" });
-  };
-
-  handleCheckboxChange = (event) => {
-    this.setState({ rememberMe: event.target.checked });
-  };
-
-  handleSignUp = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const { email, password } = this.state;
+    setError("");
 
-    if (!email || !password) {
-      this.setState({ error: "All fields are required" });
+    if (!name || !email || !password) {
+      setError("All fields are required");
+      return;
+    }
+
+    if (!agreeTerms) {
+      setError("You must agree to the Terms and Conditions");
       return;
     }
 
     if (password.length < 8) {
-      this.setState({ error: "Password must be at least 8 characters" });
+      setError("Password must be at least 8 characters");
       return;
     }
 
-    console.log("Form submitted:", { email, password });
-    this.setState({ error: "" });
+    setLoading(true);
+    try {
+      await register(name, email, password);
+      // After registration, redirect to login
+      navigate("/login");
+    } catch (err) {
+      setError(err.message || "Registration failed. Email might already be in use.");
+    } finally {
+      setLoading(false);
+    }
+
   };
 
-  render() {
-    return (
-      <div className="auth-page signup-page">
-        <div className="form-container">
+  return (
+    <div className="auth-page signup-page">
+      <div className="form-container">
+        <h2 className="form-title">Sign Up</h2>
+        <p className="form-subtitle">
+          Create your account to get started
+        </p>
 
-          <h2 className="form-title">Sign Up</h2>
-          <p className="form-subtitle">
-            Create your account to get started
-          </p>
+        {error && (
+          <div className="error-message">{error}</div>
+        )}
 
-          {this.state.error && (
-            <div className="error-message">{this.state.error}</div>
-          )}
+        <form onSubmit={handleSubmit}>
+          {/* Name */}
+          <div className="input-group">
+            <label className="input-label">Full Name</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Enter your full name"
+              className="input-field"
+              required
+            />
+          </div>
 
-          <form onSubmit={this.handleSignUp}>
-            {/* Email */}
-            <div className="input-group">
-              <label className="input-label">Email ID</label>
+          {/* Email */}
+          <div className="input-group">
+            <label className="input-label">Email ID</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
+              className="input-field"
+              required
+            />
+          </div>
+
+          {/* Password */}
+          <div className="input-group">
+            <label className="input-label">Password</label>
+            <div className="password-container">
               <input
-                type="email"
-                value={this.state.email}
-                onChange={this.handleEmailChange}
-                placeholder="Enter your email"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
                 className="input-field"
                 required
+                minLength={8}
               />
             </div>
+          </div>
 
-            {/* Password */}
-            <div className="input-group">
-              <label className="input-label">Password</label>
-              <div className="password-container">
-                <input
-                  type="password"
-                  value={this.state.password}
-                  onChange={this.handlePasswordChange}
-                  placeholder="Enter your password"
-                  className="input-field"
-                  required
-                  minLength={8}
-                />
-              </div>
-              
-            </div>
+          {/* Options */}
+          <div className="options-row">
+            <label className="checkbox-label">
+              <input
+                type="checkbox"
+                checked={agreeTerms}
+                onChange={(e) => setAgreeTerms(e.target.checked)}
+              />
+              I agree to the Terms and Conditions
+            </label>
+          </div>
 
-            {/* Options */}
-            <div className="options-row">
-              <label className="checkbox-label">
-                <input
-                  type="checkbox"
-                  checked={this.state.rememberMe}
-                  onChange={this.handleCheckboxChange}
-                />
-                I agree to the Terms and Conditions
-              </label>
+          {/* Sign Up Button */}
+          <button type="submit" className="sign-up-button" disabled={loading}>
+            {loading ? "Signing up..." : "Sign Up"}
+          </button>
+        </form>
 
-            </div>
-
-            {/* Sign Up Button */}
-            <button type="submit" className="sign-up-button">
-              Sign Up
-            </button>
-          </form>
-
-
-          {/* Footer */}
-          <p className="footer-text">
-            Already have an account?{" "}
-            <Link to="/login" className="login-link">
-             Log In
-            </Link>
-          </p>
-
-        </div>
+        {/* Footer */}
+        <p className="footer-text">
+          Already have an account?{" "}
+          <Link to="/login" className="login-link">
+           Log In
+          </Link>
+        </p>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default SignUp;
